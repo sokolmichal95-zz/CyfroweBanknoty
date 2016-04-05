@@ -105,7 +105,8 @@ public final class NoteComparator {
             for (int j = 0; j < n.size(); j++) {
                 int s = 0;
                 for (int i = 0; i < 100; i++) {
-                    String Uprime = new String(n.get(j).getLeftOut(i)) + new String(l.get(i))
+                	//FIXME rightOut i r krzaczą przy debuggowaniu rightMystery z oryginalnego banknotu jest poprawne
+                	String Uprime = new String(n.get(j).getLeftOut(i)) + new String(l.get(i))
                             + new String(original.get(j).getLeftMystery(i));
                     byte[] U = getHash(Uprime).getBytes();
                     if (Arrays.equals(n.get(j).getLeftHash(i), U)) {
@@ -123,7 +124,8 @@ public final class NoteComparator {
             for (int j = 0; j < n.size(); j++) {
                 int s = 0;
                 for (int i = 0; i < 100; i++) {
-                    String Uprime = new String(n.get(j).getRightOut(i)) + new String(r.get(i))
+                    //FIXME rightOut i r krzaczą przy debuggowaniu rightMystery z oryginalnego banknotu jest poprawne
+                	String Uprime = new String(n.get(j).getRightOut(i)) + new String(r.get(i))
                             + new String(original.get(j).getRightMystery(i));
                     byte[] U = getHash(Uprime).getBytes();
                     if (Arrays.equals(n.get(j).getRightHash(i), U)) {
@@ -142,17 +144,17 @@ public final class NoteComparator {
         if ((right == n.size()) && (left == n.size())) {
             return true;
         } else {
-            return false;
-        }
+			return false;
+		}
 
-    }
+	}
 
-    /*ivate static void checkXOR (ArrayList<Note> n){
-        for(Note a : n){
-            for(int i = 0; i < 100; i++){
-                SysOut(Utils.ArrayBytesToString((a.getLeftMystery(i))) + " xor " + Utils.ArrayBytesToString(a.getRightMystery(i)) + " = " +
-                        Utils.ArrayBytesToString(getXOR(a.getLeftMystery(i), a.getRightMystery(i))));
-            }
-        }
-    }*/
+	/*
+	 * private static void checkXOR (ArrayList<Note> n){ for(Note a : n){
+	 * for(int i = 0; i < 100; i++){
+	 * SysOut(Utils.ArrayBytesToString((a.getLeftMystery(i))) + " xor " +
+	 * Utils.ArrayBytesToString(a.getRightMystery(i)) + " = " +
+	 * Utils.ArrayBytesToString(getXOR(a.getLeftMystery(i),
+	 * a.getRightMystery(i)))); } } }
+	 */
 }
