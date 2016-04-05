@@ -1,0 +1,40 @@
+package Banknote;
+import java.io.Serializable;
+
+import Utils.Utils;
+import java.math.BigInteger;
+
+public class Note implements Serializable {
+	public double amount;
+	public BigInteger id;
+	
+	public String[] s = new String[100];
+	public String[] leftHash = new String[100];
+
+	public String[] t = new String[100];
+	public String[] rightHash = new String[100];
+
+	public Note(double amount, String rSafe, String lSafe) throws Exception {
+		this.amount = amount;
+		id = Utils.generateRandomBigInteger(BigInteger.ONE);
+		NoteCreate.mysterySeparate();
+		String[][] rBitC = NoteCreate.BitComm(NoteCreate.rightMystery, rSafe);
+		String[][] lBitC = NoteCreate.BitComm(NoteCreate.leftMystery, lSafe);
+		rightHash = rBitC[0];
+		s = rBitC[1];
+		leftHash = lBitC[0];
+		t = lBitC[1];
+	}
+
+	public void getHashes() {
+		System.out.println("lewe hasze:\n");
+		for (int i = 0; i < 100; i++) {
+			System.out.println(leftHash[i]);
+		}
+		System.out.println("prawe hasze:\n");
+		for (int i = 0; i < 100; i++) {
+			System.out.println(rightHash[i]);
+		}
+	}
+        
+}
