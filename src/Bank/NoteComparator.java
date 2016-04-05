@@ -31,9 +31,9 @@ public final class NoteComparator {
         boolean a = checkAmounts(n);
         boolean b = checkIDs(n);
         boolean c = checkBitCommitments(n, l, r, noteArrayList);
-        SysOut("Sprawdzenie wartości : " + a);
-        SysOut("Sprawdzenie identyfikatorów : " + b);
-        SysOut("Sprawdzenie zobowiązań bitowych : " + c);
+        SysOut("Amounts check : " + a);
+        SysOut("IDs check : " + b);
+        SysOut("Bit Commitments check : " + c);
         
         //////////////////////////////////////////////////
         if (a && b && c) return true;
@@ -112,7 +112,7 @@ public final class NoteComparator {
                     if (Arrays.equals(n.get(j).getLeftHash(i), U)) {
                         s = s + 1;
                     } else {
-                        SysOut("Błąd zobowiązania bitowego. Przerywam protokół");
+                        SysOut("Bit Commitment fault. Aborting the protocol!");
                         return false;
                     }
                 }
@@ -131,7 +131,7 @@ public final class NoteComparator {
                     if (Arrays.equals(n.get(j).getRightHash(i), U)) {
                         s = s + 1;
                     } else {
-                        SysOut("Błąd zobowiązania bitowego. Przerywam protokół");
+                        SysOut("Bit Commitment fault. Aborting the protocol!");
                         return false;
                     }
                 }

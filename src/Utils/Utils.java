@@ -15,230 +15,235 @@ import java.util.Random;
 
 public class Utils {
 
-	public final static String IP = "150.254.79.71";
-	
-    public static enum Mode {
-        ALPHA, ALPHANUMERIC, NUMERIC, BYTE
-    }
+	public final static String IP = "localhost";
 
-    /**
-     * Exclusive OR that takes two characters and tests if they are either '0'
-     * or '1' and return XORed value.
-     *
-     * @param c1
-     * @param c2
-     * @return
-     */
-    private static char charXOR(byte c1, byte c2) {
-        char ret = 0;
-        if ((c1 == 49 && c2 == 48) || (c1 == 48 && c2 == 49)) {
-            ret = 49;
-        } else if ((c1 == 49 && c2 == 49) || (c1 == 48 && c2 == 48)) {
-            ret = 48;
-        } else {
-            System.out.println("///////////////////////");
-            System.out.println("|Unsupported character|");
-            System.out.println("///////////////////////");
-        }
-        return ret;
-    }
+	private static File log = new File("log.txt");
+	private static PrintWriter out = PrintWriterMaker();
 
-    /**
-     * Generate random long number
-     *
-     * @return
-     */
-    public static long generateRandomLong() {
-        long range = 1234567L;
-        Random rand = new Random();
-        long number = (long) (rand.nextDouble() * range);
-        return number;
-    }
+	public static enum Mode {
+		ALPHA, ALPHANUMERIC, NUMERIC, BYTE
+	}
 
-    /**
-     * Generate random integer number
-     *
-     * @return
-     */
-    public static int generateRandomInteger() {
-        int range = 100;
-        Random rand = new Random();
-        int number = (int) (rand.nextDouble() * range);
-        return number;
-    }
+	/**
+	 * Exclusive OR that takes two characters and tests if they are either '0'
+	 * or '1' and return XORed value.
+	 *
+	 * @param c1
+	 * @param c2
+	 * @return
+	 */
+	private static char charXOR(byte c1, byte c2) {
+		char ret = 0;
+		if ((c1 == 49 && c2 == 48) || (c1 == 48 && c2 == 49)) {
+			ret = 49;
+		} else if ((c1 == 49 && c2 == 49) || (c1 == 48 && c2 == 48)) {
+			ret = 48;
+		} else {
+			System.out.println("///////////////////////");
+			System.out.println("|Unsupported character|");
+			System.out.println("///////////////////////");
+		}
+		return ret;
+	}
 
-    /**
-     * Generate random BigInteger
-     *
-     * @param n
-     * @return
-     */
-    public static BigInteger generateRandomBigInteger(BigInteger n) {
-        BigInteger r;
-        do {
-            r = new BigInteger(n.bitLength(), new Random());
-        } while (r.compareTo(n) >= 0);
-        return r;
-    }
+	/**
+	 * Generate random long number
+	 *
+	 * @return
+	 */
+	public static long generateRandomLong() {
+		long range = 1234567L;
+		Random rand = new Random();
+		long number = (long) (rand.nextDouble() * range);
+		return number;
+	}
 
-    /**
-     * Get BigInteger value of any object. The value is get from the byte array
-     * of the object.
-     *
-     * @param b
-     * @return
-     */
-    public static BigInteger getBigInteger(byte[] b) {
-        return new BigInteger(b);
-    }
+	/**
+	 * Generate random integer number
+	 *
+	 * @return
+	 */
+	public static int generateRandomInteger() {
+		int range = 100;
+		Random rand = new Random();
+		int number = (int) (rand.nextDouble() * range);
+		return number;
+	}
 
-    /**
-     * Get <code>Object</code> from <code>BigInteger</code>. The object is get
-     * from the byte array get from big integer value.
-     *
-     * @param b
-     * @return
-     */
-    public static byte[] getByteArray(BigInteger b) {
-        return b.toByteArray();
-    }
+	/**
+	 * Generate random BigInteger
+	 *
+	 * @param n
+	 * @return
+	 */
+	public static BigInteger generateRandomBigInteger(BigInteger n) {
+		BigInteger r;
+		do {
+			r = new BigInteger(n.bitLength(), new Random());
+		} while (r.compareTo(n) >= 0);
+		return r;
+	}
 
-    /**
-     * Generate random string of either letters, numbers, bytes
-     *
-     * @param length
-     * @param mode
-     * @return
-     */
-    public static String generateRandomString(int length, Mode mode) {
+	/**
+	 * Get BigInteger value of any object. The value is get from the byte array
+	 * of the object.
+	 *
+	 * @param b
+	 * @return
+	 */
+	public static BigInteger getBigInteger(byte[] b) {
+		return new BigInteger(b);
+	}
 
-        StringBuilder buffer = new StringBuilder();
-        String characters = "";
+	/**
+	 * Get <code>Object</code> from <code>BigInteger</code>. The object is get
+	 * from the byte array get from big integer value.
+	 *
+	 * @param b
+	 * @return
+	 */
+	public static byte[] getByteArray(BigInteger b) {
+		return b.toByteArray();
+	}
 
-        switch (mode) {
+	/**
+	 * Generate random string of either letters, numbers, bytes
+	 *
+	 * @param length
+	 * @param mode
+	 * @return
+	 */
+	public static String generateRandomString(int length, Mode mode) {
 
-            case ALPHA:
-                characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                break;
+		StringBuilder buffer = new StringBuilder();
+		String characters = "";
 
-            case ALPHANUMERIC:
-                characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-                break;
+		switch (mode) {
 
-            case NUMERIC:
-                characters = "1234567890";
-                break;
+		case ALPHA:
+			characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			break;
 
-            case BYTE:
-                characters = "10";
-                break;
-        }
+		case ALPHANUMERIC:
+			characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			break;
 
-        int charactersLength = characters.length();
+		case NUMERIC:
+			characters = "1234567890";
+			break;
 
-        for (int i = 0; i < length; i++) {
-            double index = Math.random() * charactersLength;
-            buffer.append(characters.charAt((int) index));
-        }
-        return buffer.toString();
-    }
+		case BYTE:
+			characters = "10";
+			break;
+		}
 
-    /**
-     * Generate random string of either letters, numbers, bytes returned as a <code>byte</code> array
-     *
-     * @param length
-     * @param mode
-     * @return
-     */
-    public static byte[] generateRandomBytes(int length, Mode mode) {
+		int charactersLength = characters.length();
 
-        StringBuilder buffer = new StringBuilder();
-        String characters = "";
+		for (int i = 0; i < length; i++) {
+			double index = Math.random() * charactersLength;
+			buffer.append(characters.charAt((int) index));
+		}
+		return buffer.toString();
+	}
 
-        switch (mode) {
+	/**
+	 * Generate random string of either letters, numbers, bytes returned as a
+	 * <code>byte</code> array
+	 *
+	 * @param length
+	 * @param mode
+	 * @return
+	 */
+	public static byte[] generateRandomBytes(int length, Mode mode) {
 
-            case ALPHA:
-                characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                break;
+		StringBuilder buffer = new StringBuilder();
+		String characters = "";
 
-            case ALPHANUMERIC:
-                characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-                break;
+		switch (mode) {
 
-            case NUMERIC:
-                characters = "1234567890";
-                break;
+		case ALPHA:
+			characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			break;
 
-            case BYTE:
-                characters = "10";
-                break;
-        }
+		case ALPHANUMERIC:
+			characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			break;
 
-        int charactersLength = characters.length();
+		case NUMERIC:
+			characters = "1234567890";
+			break;
 
-        for (int i = 0; i < length; i++) {
-            double index = Math.random() * charactersLength;
-            buffer.append(characters.charAt((int) index));
-        }
-        return buffer.toString().getBytes();
-    }
+		case BYTE:
+			characters = "10";
+			break;
+		}
 
-    /**
-     * Exclusive OR performed on two Strings.
-     *
-     * @param s1
-     * @param s2
-     * @return
-     */
-    public static byte[] getXOR(byte[] s1, byte[] s2) {
-        byte[] result = new byte[s1.length];
-    	for(int i =0 ; i< s1.length;i++){
-        	result[i] = (byte) (s1[i]^s2[i]);
-        }
-        return result;
-    }
+		int charactersLength = characters.length();
 
-    /**
-     * Get SHA-256 hash value of String object.
-     *
-     * @param input
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws UnsupportedEncodingException
-     */
-    public static String getHash(String input) throws NoSuchAlgorithmException,
-            UnsupportedEncodingException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(input.getBytes("UTF-8"));
-        byte[] digest = md.digest();
-        String output = Base64.encode(digest);
-        return output;
-    }
-    private static File log = new File("log.txt");
-    private static PrintWriter PrintWriterMaker(){
-    	try {
+		for (int i = 0; i < length; i++) {
+			double index = Math.random() * charactersLength;
+			buffer.append(characters.charAt((int) index));
+		}
+		return buffer.toString().getBytes();
+	}
+
+	/**
+	 * Exclusive OR performed on two Strings.
+	 *
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
+	public static byte[] getXOR(byte[] s1, byte[] s2) {
+		byte[] result = new byte[s1.length];
+		for (int i = 0; i < s1.length; i++) {
+			result[i] = (byte) (s1[i] ^ s2[i]);
+		}
+		return result;
+	}
+
+	/**
+	 * Get SHA-256 hash value of String object.
+	 *
+	 * @param input
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String getHash(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		md.update(input.getBytes("UTF-8"));
+		byte[] digest = md.digest();
+		String output = Base64.encode(digest);
+		return output;
+	}
+
+	private static PrintWriter PrintWriterMaker() {
+		try {
 			return new PrintWriter(log);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return null;
-    }
-    private static PrintWriter out = PrintWriterMaker();
-    public static void SysOut(Object in)  {
-       
-        
-        out.println(in);
-        
-        out.flush();
-        System.out.println(in);
-        
-    }
-    public static String ArrayBytesToString(byte[] a){
-    	StringBuffer string = new StringBuffer();  
-    	for(byte b:a){
-    		string.append(Integer.toBinaryString(b));
-    	}
-    	return string.toString();
-    }
+		return null;
+	}
+
+	public static void SysOut(Object in) {
+		System.out.println(in);
+		out.println(in);
+		out.flush();
+	}
+
+	/**
+	 * Converts array of <code>byte</code>s to <code>String</code> object
+	 * @param a
+	 * @return
+	 */
+	public static String ArrayBytesToString(byte[] a) {
+		StringBuffer string = new StringBuffer();
+		for (byte b : a) {
+			string.append(Integer.toBinaryString(b));
+		}
+		return string.toString();
+	}
 }
