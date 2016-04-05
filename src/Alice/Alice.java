@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 import Banknote.BlindNote;
 import Banknote.Note;
+import Banknote.SignedNote;
 import Utils.BlindRSA;
 
 public class Alice {
@@ -129,8 +130,12 @@ public class Alice {
 			} catch (IOException e) {
 				SysOut("Exception : " + e.getMessage());
 			}
+			// 5. Alice odbiera od Banku podpisany banknot
+			ArrayList<SignedNote> sigNotes = (ArrayList<SignedNote>) ois.readObject();
+			for (SignedNote sn : sigNotes) {
+				SysOut("Signature : " + sn.getSignature());
+			}
 		}
-
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

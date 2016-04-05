@@ -2,12 +2,14 @@ package Bank;
 
 import Banknote.BlindNote;
 import Banknote.Note;
+import Banknote.SignedNote;
 import Utils.BlindRSA;
 import Utils.RSA;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -66,7 +68,7 @@ public class Bank {
 			System.out.println("Choice : " + bankChoice);
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// 3. Bank odbiera od Alice wszystkie banknoty z wyjątkiem
+			// 3. Bank odbiera od Alice wszystkie banknoty z wyjątkiem wybranego
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////// wybranego.
 			ArrayList<Note> noteList = new ArrayList<>();
 			noteList = (ArrayList<Note>) ois.readObject();
@@ -146,6 +148,21 @@ public class Bank {
 				SysOut("\nAlice is trying to cheat on me!");
 			}
 
+			// 5. Bank podpisuje banknot i odsyła go do Alice
+			
+			ArrayList<BigInteger> Y = new ArrayList<BigInteger>();
+			for(int i = 0; i < bn.length; i++){
+				Y.add(bn[i].amount.add(bn[i].id));
+			}
+			BlindRSA blindRSA2 = new BlindRSA(rsa.getPrivateKey());
+			ArrayList<SignedNote> sigNotes = new ArrayList<SignedNote>();
+			for(int i = 0; i < Y.size(); i++){
+				//SysOut(Y.get(i));
+				sigNotes.add(new SignedNote(bn[i], blindRSA2.sign(Y.get(i))));
+				SysOut("Signed Note : " + sigNotes.get(i).getSignature());
+			}
+			oos.writeObject(sigNotes);
+			
 		} catch (IOException e) {
 			SysOut("ERROR CONNECTING WITH BANK\n" + e.getMessage());
 		} catch (ClassNotFoundException e) {
