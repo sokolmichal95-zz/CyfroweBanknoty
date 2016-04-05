@@ -15,6 +15,12 @@ public class BankShop {
 
 	public static void shop() throws InterruptedException {
 		ServerSocket serverSocket = null;
+		try {
+			serverSocket = new ServerSocket(6666);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// 5 Bank obsługuje sklep
 		Thread.sleep(5000);
 		try (Socket socket = serverSocket.accept()) {

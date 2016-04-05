@@ -8,6 +8,7 @@ import static Utils.Utils.IP;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 import java.net.Socket;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -16,12 +17,17 @@ import java.util.Scanner;
 
 import Banknote.BlindNote;
 import Banknote.Note;
+import Banknote.SignedNote;
 import Utils.BlindRSA;
 
 public class Alice {
 
 	public static void main(String[] args) throws Exception {
 
+		
+		Socket shopSocket = new Socket(IP, 8888);
+		Socket bankSocket = new Socket(IP, 4444);
+		
 		ObjectOutputStream oos;
 		ObjectInputStream ois;
 		BlindNote[] bn;
@@ -29,6 +35,8 @@ public class Alice {
 		List<byte[]> lSafe = new ArrayList<>(); // = new byte[256][100];
 		Note[] notes;
 		notes = new Note[100];
+		int bankChoice;
+		SignedNote sigNote;
 
 		// Pobranie od użytkownika wartości banknotu
 		SysOut("Enter note amount : ");
@@ -48,6 +56,9 @@ public class Alice {
 			lSafe.add(generateRandomBytes(256, BYTE));
 		}
 
+		sigNote = new SignedNote(new Note(amount, lSafe.get(0), rSafe.get(0)),
+				new BigInteger("19191919191919191919191919191919191919"));
+
 		// TEST
 		// Note n = new Note(amount, lSafe[0], rSafe[0]);
 		// n.getNote();
@@ -65,12 +76,11 @@ public class Alice {
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// 1. Alice wykonuje żądanie banku
-		try ( // Przesyłanie
-				Socket socket = new Socket(IP, 4444)) {
+		try {
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 1. Alice odbiera od Banku klucz publiczny RSA
-			ois = new ObjectInputStream(socket.getInputStream());
+			ois = new ObjectInputStream(bankSocket.getInputStream());
 			RSAPublicKey publicKey;
 			publicKey = (RSAPublicKey) ois.readObject();
 			SysOut("Received public key from bank\n" + "Blinding notes...\n");
@@ -93,12 +103,12 @@ public class Alice {
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 3. Alice wysyła zaciemnione banknoty do banku
-			oos = new ObjectOutputStream(socket.getOutputStream());
+			oos = new ObjectOutputStream(bankSocket.getOutputStream());
 			oos.writeObject(bn);
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// 4. Alice odbiera polecenie od Banku i je wykonuje
-			int bankChoice;
+
 			try {
 				bankChoice = (int) ois.readObject();
 			} catch (IOException e) {
@@ -126,11 +136,24 @@ public class Alice {
 
 				// 4.3 Alice wysyła do banku czynnik zaciemniający
 				oos.writeObject(blindRSA);
+
 			} catch (IOException e) {
 				SysOut("Exception : " + e.getMessage());
 			}
+			// 5. Alice odbiera od banku podpisany banknot
+			//sigNote = (SignedNote) ois.readObject();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// PŁATNOŚĆ
+		// 1. Alice wysyła do sklepu banknot
+		try {
+			oos = new ObjectOutputStream(shopSocket.getOutputStream());
+			oos.writeObject(sigNote);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

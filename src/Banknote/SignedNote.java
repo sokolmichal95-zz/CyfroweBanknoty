@@ -17,6 +17,11 @@ public class SignedNote implements Serializable{
 	private Note note;
 	private BigInteger signature;
 	
+	public SignedNote(Note n, BigInteger b){
+		setNote(n);
+		setSignature(b);
+	}
+	
 	public Note getNote() {
 		return note;
 	}
