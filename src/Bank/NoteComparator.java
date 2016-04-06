@@ -1,7 +1,6 @@
 package Bank;
 
 import Banknote.Note;
-import Utils.Utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -30,7 +29,7 @@ public final class NoteComparator {
 
         boolean a = checkAmounts(n);
         boolean b = checkIDs(n);
-        boolean c = checkBitCommitments(n, l, r, noteArrayList);
+        boolean c = checkBitCommitments(n, noteArrayList, l, r);
         SysOut("Amounts check : " + a);
         SysOut("IDs check : " + b);
         SysOut("Bit Commitments check : " + c);
@@ -86,33 +85,32 @@ public final class NoteComparator {
     /**
      * Check Bit Commitments from the <code>Notes</code>
      *
-     * @param n        - Unblinded Notes <code>ArrayList</code>
+     * @param unblindedNotes        - Unblinded Notes <code>ArrayList</code>
      * @param l        - Left Safe Strings <code>ArrayList</code>
      * @param r        - right Safe Strings <code>ArrayList</code>
-     * @param original
      * @return
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
      */
-    private static boolean checkBitCommitments(ArrayList<Note> n, ArrayList<byte[]> l,
-                                               ArrayList<byte[]> r, ArrayList<Note> original)
+    private static boolean checkBitCommitments(ArrayList<Note> unblindedNotes, ArrayList<Note> originalNotes, ArrayList<byte[]> l,
+                                               ArrayList<byte[]> r)
             throws UnsupportedEncodingException,
             NoSuchAlgorithmException {
         //Sprawdzenie lewego zobowiązania
         int left = 0, right = 0;
-        if (n.size() == original.size()) {
+        if (unblindedNotes.size() == originalNotes.size()) {
             //SysOut(n.size() + " , " + original.size());
-            for (int j = 0; j < n.size(); j++) {
+            for (int j = 0; j < unblindedNotes.size(); j++) {
                 int s = 0;
                 for (int i = 0; i < 100; i++) {
-                	//FIXME rightOut i r krzaczą przy debuggowaniu rightMystery z oryginalnego banknotu jest poprawne
-                	String Uprime = new String(n.get(j).getLeftOut(i)) + new String(l.get(i))
-                            + new String(original.get(j).getLeftMystery(i));
+                	//FIXME
+                	String Uprime = new String(unblindedNotes.get(j).getLeftOut(i)) + new String(l.get(i))
+                            + new String(originalNotes.get(j).getLeftMystery(i));
                     byte[] U = getHash(Uprime).getBytes();
-                    if (Arrays.equals(n.get(j).getLeftHash(i), U)) {
+                    if (Arrays.equals(unblindedNotes.get(j).getLeftHash(i), U)) {
                         s = s + 1;
                     } else {
-                        SysOut("Bit Commitment fault. Aborting the protocol!");
+                        SysOut("Bit Commitment fault. Aborting protocol!");
                         return false;
                     }
                 }
@@ -121,14 +119,14 @@ public final class NoteComparator {
                 }
             }
             //Sprawdzenie prawego zobowiązania
-            for (int j = 0; j < n.size(); j++) {
+            for (int j = 0; j < unblindedNotes.size(); j++) {
                 int s = 0;
                 for (int i = 0; i < 100; i++) {
-                    //FIXME rightOut i r krzaczą przy debuggowaniu rightMystery z oryginalnego banknotu jest poprawne
-                	String Uprime = new String(n.get(j).getRightOut(i)) + new String(r.get(i))
-                            + new String(original.get(j).getRightMystery(i));
+                    //FIXME
+                	String Uprime = new String(unblindedNotes.get(j).getRightOut(i)) + new String(r.get(i))
+                            + new String(originalNotes.get(j).getRightMystery(i));
                     byte[] U = getHash(Uprime).getBytes();
-                    if (Arrays.equals(n.get(j).getRightHash(i), U)) {
+                    if (Arrays.equals(unblindedNotes.get(j).getRightHash(i), U)) {
                         s = s + 1;
                     } else {
                         SysOut("Bit Commitment fault. Aborting the protocol!");
@@ -141,7 +139,7 @@ public final class NoteComparator {
             }
         }
 
-        if ((right == n.size()) && (left == n.size())) {
+        if ((right == unblindedNotes.size()) && (left == unblindedNotes.size())) {
             return true;
         } else {
 			return false;
