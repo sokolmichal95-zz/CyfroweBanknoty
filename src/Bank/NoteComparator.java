@@ -8,6 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import static Utils.Utils.SysOut;
 import static Utils.Utils.getHash;
 //import static Utils.Utils.getXOR;
@@ -106,9 +108,10 @@ public final class NoteComparator {
                 int s = 0;
                 for (int i = 0; i < 100; i++) {
                 	//FIXME rightOut i r krzaczą przy debuggowaniu rightMystery z oryginalnego banknotu jest poprawne
-                	String Uprime = new String(n.get(j).getLeftOut(i)) + new String(l.get(i))
-                            + new String(original.get(j).getLeftMystery(i));
-                    byte[] U = getHash(Uprime).getBytes();
+                	byte[] Uprime = ArrayUtils.addAll(n.get(j).getLeftOut(i),ArrayUtils.addAll(l.get(i),
+                            original.get(j).getLeftMystery(i)));
+                    byte[] U = getHash(Uprime);
+                    
                     if (Arrays.equals(n.get(j).getLeftHash(i), U)) {
                         s = s + 1;
                     } else {
@@ -125,9 +128,10 @@ public final class NoteComparator {
                 int s = 0;
                 for (int i = 0; i < 100; i++) {
                     //FIXME rightOut i r krzaczą przy debuggowaniu rightMystery z oryginalnego banknotu jest poprawne
-                	String Uprime = new String(n.get(j).getRightOut(i)) + new String(r.get(i))
-                            + new String(original.get(j).getRightMystery(i));
-                    byte[] U = getHash(Uprime).getBytes();
+                	byte[] Uprime = ArrayUtils.addAll(n.get(j).getRightOut(i),ArrayUtils.addAll(r.get(i),
+                            original.get(j).getRightMystery(i)));
+                    byte[] U = getHash(Uprime);
+                	
                     if (Arrays.equals(n.get(j).getRightHash(i), U)) {
                         s = s + 1;
                     } else {

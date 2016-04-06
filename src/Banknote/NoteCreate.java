@@ -3,6 +3,8 @@ package Banknote;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import static Utils.Utils.*;
 import static Utils.Utils.Mode.*;
 
@@ -44,8 +46,8 @@ public class NoteCreate {
         for (int i = 0; i < 100; i++) {
             byte[] out;
             out = generateRandomBytes(LENGTH, BYTE);
-            String hash = new String(out) + new String(safe) + new String(input[i]);
-            temp[i] = getHash(hash).getBytes();
+            byte[] hash = ArrayUtils.addAll(out,ArrayUtils.addAll(safe,input[i]));
+            temp[i] = getHash(hash);
             tempOut[i] = out;
         }
         ArrayList<byte[][]> ret = new ArrayList<>();

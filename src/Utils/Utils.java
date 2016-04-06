@@ -210,12 +210,12 @@ public class Utils {
 	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String getHash(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public static byte[] getHash(byte[] input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
-		md.update(input.getBytes("UTF-8"));
+		md.update(input);
 		byte[] digest = md.digest();
-		String output = Base64.encode(digest);
-		return output;
+		
+		return digest;
 	}
 
 	private static PrintWriter PrintWriterMaker() {
