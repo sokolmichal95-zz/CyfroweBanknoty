@@ -1,4 +1,4 @@
-import static Utils.Utils.generateRandomBytes;
+/*import static Utils.Utils.generateRandomBytes;
 import static Utils.Utils.Mode.BYTE;
 import static org.junit.Assert.*;
 
@@ -42,3 +42,4 @@ public class checkXORTest {
 	}
 
 }
+*/

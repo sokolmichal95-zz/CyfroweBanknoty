@@ -1,6 +1,6 @@
 package Bank;
 
-import static Utils.Utils.SysOut;
+import Utils.RSA;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 
-import Utils.RSA;
+import static Utils.Utils.SysOut;
 
 public class BankShop {
 
@@ -17,8 +17,7 @@ public class BankShop {
 		ServerSocket serverSocket = null;
 		try {
 			serverSocket = new ServerSocket(6666);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+		} catch (IOException e1){
 			e1.printStackTrace();
 		}
 		// 5 Bank obsługuje sklep

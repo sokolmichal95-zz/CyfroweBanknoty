@@ -1,20 +1,22 @@
 package Bank;
 
-import static Utils.Utils.SysOut;
-import static Utils.Utils.generateRandomInteger;
+import Banknote.BlindNote;
+import Banknote.Note;
+import Banknote.SignedNote;
+import Utils.BlindRSA;
+import Utils.RSA;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import Banknote.BlindNote;
-import Banknote.Note;
-import Utils.BlindRSA;
-import Utils.RSA;
+import static Utils.Utils.SysOut;
+import static Utils.Utils.generateRandomInteger;
 
 public class BankAlice {
 	
@@ -139,11 +141,23 @@ public class BankAlice {
 			// 4.1 Bank sprawdza zgodność banknotów
 			SysOut("\n\n");
 			if (NoteComparator.noteCompare(unblindedNotes, lSafe, rSafe, noteList)) {
-				SysOut("\nI trust Alice so I'm gonna sing her note!");
+				SysOut("\nI trust Alice so I'm gonna sign her note!");
 			} else {
 				SysOut("\nAlice is trying to cheat on me!");
 			}
-			
+			ArrayList<BigInteger> Y = new ArrayList<BigInteger>();
+			for(int i = 0; i < bn.length; i++){
+				Y.add(bn[i].amount.add(bn[i].id));
+			}
+			BlindRSA blindRSA2 = new BlindRSA(rsa.getPrivateKey());
+			ArrayList<SignedNote> sigNotes = new ArrayList<SignedNote>();
+			for(int i = 0; i < Y.size(); i++){
+				//SysOut(Y.get(i));
+				sigNotes.add(new SignedNote(bn[i], blindRSA2.sign(Y.get(i))));
+				SysOut("Signed Note : " + sigNotes.get(i).getSignature());
+			}
+			oos.writeObject(sigNotes);
+
 		} catch (IOException e) {
 			SysOut("ERROR CONNECTING WITH ALICE\n" + e.getMessage());
 		} catch (ClassNotFoundException e) {

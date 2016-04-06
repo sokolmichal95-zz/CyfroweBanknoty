@@ -1,31 +1,28 @@
 package Alice;
 
-import static Utils.Utils.SysOut;
-import static Utils.Utils.generateRandomBytes;
-import static Utils.Utils.Mode.BYTE;
-import static Utils.Utils.IP;
+import Banknote.BlindNote;
+import Banknote.Note;
+import Banknote.SignedNote;
+import Utils.BlindRSA;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigInteger;
 import java.net.Socket;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import Banknote.BlindNote;
-import Banknote.Note;
-import Banknote.SignedNote;
-import Utils.BlindRSA;
+import static Utils.Utils.*;
+import static Utils.Utils.Mode.BYTE;
 
 public class Alice {
 
 	public static void main(String[] args) throws Exception {
 
 		
-		Socket shopSocket = new Socket(IP, 8888);
+		//Socket shopSocket = new Socket(IP, 8888);
 		Socket bankSocket = new Socket(IP, 4444);
 		
 		ObjectOutputStream oos;
@@ -36,7 +33,6 @@ public class Alice {
 		Note[] notes;
 		notes = new Note[100];
 		int bankChoice;
-		SignedNote sigNote;
 
 		// Pobranie od użytkownika wartości banknotu
 		SysOut("Enter note amount : ");
@@ -55,9 +51,6 @@ public class Alice {
 			rSafe.add(generateRandomBytes(256, BYTE));
 			lSafe.add(generateRandomBytes(256, BYTE));
 		}
-
-		sigNote = new SignedNote(new Note(amount, lSafe.get(0), rSafe.get(0)),
-				new BigInteger("19191919191919191919191919191919191919"));
 
 		// TEST
 		// Note n = new Note(amount, lSafe[0], rSafe[0]);
@@ -140,20 +133,24 @@ public class Alice {
 			} catch (IOException e) {
 				SysOut("Exception : " + e.getMessage());
 			}
-			// 5. Alice odbiera od banku podpisany banknot
-			//sigNote = (SignedNote) ois.readObject();
+			// 5. Alice odbiera od Banku podpisany banknot
+			ArrayList<SignedNote> sigNotes = (ArrayList<SignedNote>) ois.readObject();
+			for (SignedNote sn : sigNotes) {
+				SysOut("Signature : " + sn.getSignature());
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// PŁATNOŚĆ
 		// 1. Alice wysyła do sklepu banknot
-		try {
+		/*try {
 			oos = new ObjectOutputStream(shopSocket.getOutputStream());
 			oos.writeObject(sigNote);
 		}catch(Exception e){
 			e.printStackTrace();
-		}
+		}*/
 	}
 }

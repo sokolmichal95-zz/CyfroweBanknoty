@@ -10,23 +10,23 @@ import java.math.BigInteger;
 public class SignedNote implements Serializable{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1751629949319778864L;
-	
-	private Note note;
+
+	private BlindNote blindNote;
 	private BigInteger signature;
-	
-	public SignedNote(Note n, BigInteger b){
-		setNote(n);
+
+	public SignedNote(BlindNote n, BigInteger b){
+		setBlindNote(n);
 		setSignature(b);
 	}
-	
-	public Note getNote() {
-		return note;
+
+	public BlindNote getNote() {
+		return blindNote;
 	}
-	public void setNote(Note note) {
-		this.note = note;
+	public void setBlindNote(BlindNote blindNote) {
+		this.blindNote = blindNote;
 	}
 	public BigInteger getSignature() {
 		return signature;
@@ -34,5 +34,5 @@ public class SignedNote implements Serializable{
 	public void setSignature(BigInteger signature) {
 		this.signature = signature;
 	}
-	
+
 }
