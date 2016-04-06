@@ -142,21 +142,21 @@ public class BankAlice {
 			SysOut("\n\n");
 			if (NoteComparator.noteCompare(unblindedNotes, lSafe, rSafe, noteList)) {
 				SysOut("\nI trust Alice so I'm gonna sign her note!");
+				ArrayList<BigInteger> Y = new ArrayList<BigInteger>();
+				for(int i = 0; i < bn.length; i++){
+					Y.add(bn[i].amount.add(bn[i].id));
+				}
+				BlindRSA blindRSA2 = new BlindRSA(rsa.getPrivateKey());
+				ArrayList<SignedNote> sigNotes = new ArrayList<SignedNote>();
+				for(int i = 0; i < Y.size(); i++){
+					//SysOut(Y.get(i));
+					sigNotes.add(new SignedNote(bn[i], blindRSA2.sign(Y.get(i))));
+					SysOut("Signed Note : " + sigNotes.get(i).getSignature());
+				}
+				oos.writeObject(sigNotes);
 			} else {
 				SysOut("\nAlice is trying to cheat on me!");
 			}
-			ArrayList<BigInteger> Y = new ArrayList<BigInteger>();
-			for(int i = 0; i < bn.length; i++){
-				Y.add(bn[i].amount.add(bn[i].id));
-			}
-			BlindRSA blindRSA2 = new BlindRSA(rsa.getPrivateKey());
-			ArrayList<SignedNote> sigNotes = new ArrayList<SignedNote>();
-			for(int i = 0; i < Y.size(); i++){
-				//SysOut(Y.get(i));
-				sigNotes.add(new SignedNote(bn[i], blindRSA2.sign(Y.get(i))));
-				SysOut("Signed Note : " + sigNotes.get(i).getSignature());
-			}
-			oos.writeObject(sigNotes);
 
 		} catch (IOException e) {
 			SysOut("ERROR CONNECTING WITH ALICE\n" + e.getMessage());

@@ -7,9 +7,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static Utils.Utils.SysOut;
-import static Utils.Utils.getHash;
-//import static Utils.Utils.getXOR;
+import static Utils.Utils.*;
+// import static Utils.Utils.getXOR; 
 
 
 /**
@@ -33,7 +32,7 @@ public final class NoteComparator {
         SysOut("Amounts check : " + a);
         SysOut("IDs check : " + b);
         SysOut("Bit Commitments check : " + c);
-        
+
         //////////////////////////////////////////////////
         if (a && b && c) return true;
         else return false;
@@ -85,9 +84,9 @@ public final class NoteComparator {
     /**
      * Check Bit Commitments from the <code>Notes</code>
      *
-     * @param unblindedNotes        - Unblinded Notes <code>ArrayList</code>
-     * @param l        - Left Safe Strings <code>ArrayList</code>
-     * @param r        - right Safe Strings <code>ArrayList</code>
+     * @param unblindedNotes - Unblinded Notes <code>ArrayList</code>
+     * @param l              - Left Safe Strings <code>ArrayList</code>
+     * @param r              - right Safe Strings <code>ArrayList</code>
      * @return
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
@@ -103,9 +102,10 @@ public final class NoteComparator {
             for (int j = 0; j < unblindedNotes.size(); j++) {
                 int s = 0;
                 for (int i = 0; i < 100; i++) {
-                	//FIXME
-                	String Uprime = new String(unblindedNotes.get(j).getLeftOut(i)) + new String(l.get(i))
-                            + new String(originalNotes.get(j).getLeftMystery(i));
+                    //FIXME
+                    String Uprime = ArrayBytesToString(unblindedNotes.get(j).getLeftOut(i))
+                            + ArrayBytesToString(l.get(i))
+                            + ArrayBytesToString(originalNotes.get(j).getLeftMystery(i));
                     byte[] U = getHash(Uprime).getBytes();
                     if (Arrays.equals(unblindedNotes.get(j).getLeftHash(i), U)) {
                         s = s + 1;
@@ -123,13 +123,13 @@ public final class NoteComparator {
                 int s = 0;
                 for (int i = 0; i < 100; i++) {
                     //FIXME
-                	String Uprime = new String(unblindedNotes.get(j).getRightOut(i)) + new String(r.get(i))
-                            + new String(originalNotes.get(j).getRightMystery(i));
+                    String Uprime = ArrayBytesToString(unblindedNotes.get(j).getRightOut(i)) + ArrayBytesToString(r.get(i))
+                            + ArrayBytesToString(originalNotes.get(j).getRightMystery(i));
                     byte[] U = getHash(Uprime).getBytes();
                     if (Arrays.equals(unblindedNotes.get(j).getRightHash(i), U)) {
                         s = s + 1;
                     } else {
-                        SysOut("Bit Commitment fault. Aborting the protocol!");
+                        SysOut("Bit Commitment fault. Aborting protocol!");
                         return false;
                     }
                 }
@@ -142,13 +142,13 @@ public final class NoteComparator {
         if ((right == unblindedNotes.size()) && (left == unblindedNotes.size())) {
             return true;
         } else {
-			return false;
-		}
+            return false;
+        }
 
-	}
+    }
 
 	/*
-	 * private static void checkXOR (ArrayList<Note> n){ for(Note a : n){
+     * private static void checkXOR (ArrayList<Note> n){ for(Note a : n){
 	 * for(int i = 0; i < 100; i++){
 	 * SysOut(Utils.ArrayBytesToString((a.getLeftMystery(i))) + " xor " +
 	 * Utils.ArrayBytesToString(a.getRightMystery(i)) + " = " +
