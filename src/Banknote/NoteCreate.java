@@ -44,7 +44,7 @@ public class NoteCreate {
         for (int i = 0; i < 100; i++) {
             byte[] out;
             out = generateRandomBytes(LENGTH, BYTE);
-            String hash = new String(out) + new String(safe) + new String(input[i]);
+            String hash = ArrayBytesToString(out) + ArrayBytesToString(safe) + ArrayBytesToString(input[i]);
             temp[i] = getHash(hash).getBytes();
             tempOut[i] = out;
         }

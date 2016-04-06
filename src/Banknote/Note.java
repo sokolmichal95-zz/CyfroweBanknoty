@@ -76,7 +76,7 @@ public class Note implements Serializable {
     public byte[] getRightHash(int i) {
         return rightHash[i];
     }
-    
+
     public byte[] getLeftMystery(int i){
     	return leftMystery[i];
     }

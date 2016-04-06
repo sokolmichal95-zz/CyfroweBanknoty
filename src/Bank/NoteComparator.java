@@ -21,8 +21,8 @@ public final class NoteComparator {
      *
      * @param n
      */
-    public static boolean noteCompare(ArrayList<Note> n, ArrayList<byte[]> l,
-                                      ArrayList<byte[]> r, ArrayList<Note> noteArrayList)
+    public static boolean noteCompare(ArrayList<Note> n,ArrayList<Note> noteArrayList,
+                                      ArrayList<byte[]> l, ArrayList<byte[]> r)
             throws UnsupportedEncodingException,
             NoSuchAlgorithmException {
 
@@ -107,6 +107,7 @@ public final class NoteComparator {
                             + ArrayBytesToString(l.get(i))
                             + ArrayBytesToString(originalNotes.get(j).getLeftMystery(i));
                     byte[] U = getHash(Uprime).getBytes();
+                    SysOut("U : " + new String(U)+ "\nH : "+ new String(unblindedNotes.get(j).getLeftHash(i)));
                     if (Arrays.equals(unblindedNotes.get(j).getLeftHash(i), U)) {
                         s = s + 1;
                     } else {
@@ -126,6 +127,7 @@ public final class NoteComparator {
                     String Uprime = ArrayBytesToString(unblindedNotes.get(j).getRightOut(i)) + ArrayBytesToString(r.get(i))
                             + ArrayBytesToString(originalNotes.get(j).getRightMystery(i));
                     byte[] U = getHash(Uprime).getBytes();
+                    SysOut("U : " + ArrayBytesToString(U)+ "\nH : "+ new String(unblindedNotes.get(j).getRightHash(i)));
                     if (Arrays.equals(unblindedNotes.get(j).getRightHash(i), U)) {
                         s = s + 1;
                     } else {
