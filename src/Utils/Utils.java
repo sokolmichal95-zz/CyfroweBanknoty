@@ -1,11 +1,7 @@
 package Utils;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -210,12 +206,11 @@ public class Utils {
 	 * @throws NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String getHash(String input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public static byte[] getHash(byte[] input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
-		md.update(input.getBytes("UTF-8"));
+		md.update(input);
 		byte[] digest = md.digest();
-		String output = Base64.encode(digest);
-		return output;
+		return digest;
 	}
 
 	private static PrintWriter PrintWriterMaker() {

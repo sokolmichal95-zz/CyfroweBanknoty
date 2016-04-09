@@ -8,6 +8,7 @@ import Utils.BlindRSA;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 import java.net.Socket;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
@@ -82,16 +83,32 @@ public class Alice {
 			// 2. Alice zaciemnia banknoty
 			BlindRSA blindRSA = new BlindRSA(publicKey);
 			for (int i = 0; i < 100; i++) {
-				BlindNote b = new BlindNote();
-				b.amount = blindRSA.blind(notes[i].getAmount());
-				b.id = blindRSA.blind(notes[i].getId());
+				BigInteger a = blindRSA.blind(notes[i].getAmount());
+				BigInteger id = blindRSA.blind(notes[i].getId());
+				BigInteger[] lh = new BigInteger[100];
+				BigInteger[] rh = new BigInteger[100];
+				BigInteger[] lo = new BigInteger[100];
+				BigInteger[] ro = new BigInteger[100];
+				BigInteger[] lm = new BigInteger[100];
+				BigInteger[] rm = new BigInteger[100];
+
+				byte[][] getlh = notes[i].getLeftHash();
+				byte[][] getrh = notes[i].getRightHash();
+				byte[][] getlo = notes[i].getLeftOut();
+				byte[][] getro = notes[i].getRightOut();
+				byte[][] getlm = notes[i].getLeftMystery();
+				byte[][] getrm = notes[i].getRightMystery();
 				for (int j = 0; j < 100; j++) {
-					b.leftHash.add(blindRSA.blind(notes[i].getLeftHash(j)));
-					b.leftOut.add(blindRSA.blind(notes[i].getLeftOut(j)));
-					b.rightHash.add(blindRSA.blind(notes[i].getRightHash(j)));
-					b.rightOut.add(blindRSA.blind(notes[i].getRightOut(j)));
+
+					lh[j] = blindRSA.blind(getlh[i]);
+					rh[i] = blindRSA.blind(getrh[i]);
+					lo[i] = blindRSA.blind(getlo[i]);
+					ro[i] = blindRSA.blind(getro[i]);
+					lm[i] = blindRSA.blind(getlm[i]);
+					rm[i] = blindRSA.blind(getrm[i]);
+
 				}
-				bn[i] = b;
+				bn[i] = new BlindNote(a, id, lo, ro, lh, rh, lm, rm);
 			}
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////

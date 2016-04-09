@@ -2,8 +2,6 @@ package Banknote;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to store blinded parts of each Note
@@ -11,20 +9,68 @@ import java.util.List;
  * Created by msokol on 2/21/16.
  */
 public class BlindNote implements Serializable{
-    public BigInteger amount;
-    public BigInteger id;
+    private final BigInteger amount;
+    private final BigInteger id;
 
-    public List<BigInteger> leftOut;
-    public List<BigInteger> rightOut;
+    private final BigInteger[] leftOut;
+    private final BigInteger[] rightOut;
 
-    public List<BigInteger> leftHash;
-    public List<BigInteger> rightHash;
+    private final BigInteger[] leftHash;
+    private final BigInteger[] rightHash;
 
-    public  BlindNote (){
-        leftOut = new ArrayList<>();
-        rightOut = new ArrayList<>();
+    private final BigInteger[] leftMystery;
+    private final BigInteger[] rightMystery;
 
-        leftHash = new ArrayList<>();
-        rightHash = new ArrayList<>();
+    public  BlindNote (
+            BigInteger amount,
+            BigInteger id,
+            BigInteger[] leftOut,
+            BigInteger[] rightOut,
+            BigInteger[] leftHash,
+            BigInteger[] rightHash,
+            BigInteger[] leftMystery,
+            BigInteger[] rightMystery){
+
+        this.amount = amount;
+        this.id = id;
+        this.leftOut = leftOut;
+        this.rightOut = rightOut;
+        this.leftHash = leftHash;
+        this.rightHash = rightHash;
+        this.leftMystery = leftMystery;
+        this.rightMystery = rightMystery;
+
+    }
+
+    public BigInteger getAmount() {
+        return amount;
+    }
+
+    public BigInteger getId() {
+        return id;
+    }
+
+    public BigInteger[] getLeftOut() {
+        return leftOut;
+    }
+
+    public BigInteger[] getRightOut() {
+        return rightOut;
+    }
+
+    public BigInteger[] getLeftHash() {
+        return leftHash;
+    }
+
+    public BigInteger[] getRightHash() {
+        return rightHash;
+    }
+
+    public BigInteger[] getLeftMystery() {
+        return leftMystery;
+    }
+
+    public BigInteger[] getRightMystery() {
+        return rightMystery;
     }
 }

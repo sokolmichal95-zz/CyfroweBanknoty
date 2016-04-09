@@ -85,55 +85,68 @@ public class BankAlice {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // 4. Bank odkrywa zakryte banknoty
             ArrayList<Note> unblindedNotes = new ArrayList<>();
+
             for (int j = 0; j < bankChoice; j++) {
-                Note note = new Note();
-                ArrayList<byte[]> LH = new ArrayList<>();
-                ArrayList<byte[]> LO = new ArrayList<>();
-                ArrayList<byte[]> RH = new ArrayList<>();
-                ArrayList<byte[]> RO = new ArrayList<>();
+                byte[] amnt = blindRSA.unblind(bn[j].getAmount());
+                byte[] id = blindRSA.unblind(bn[j].getId());
+                byte[][] lH = new byte[100][];
+                byte[][] rH = new byte[100][];
+                byte[][] lO = new byte[100][];
+                byte[][] rO = new byte[100][];
+                byte[][] lM = new byte[100][];
+                byte[][] rM = new byte[100][];
+
+                BigInteger[] lh = bn[j].getLeftHash();
+                BigInteger[] rh = bn[j].getRightHash();
+                BigInteger[] lo = bn[j].getLeftOut();
+                BigInteger[] ro = bn[j].getRightOut();
+                BigInteger[] lm = bn[j].getLeftMystery();
+                BigInteger[] rm = bn[j].getRightMystery();
+
 
                 for (int i = 0; i < 100; i++) {
-                    LH.add(blindRSA.unblind(bn[j].leftHash.get(i)));
-                    LO.add(blindRSA.unblind(bn[j].leftOut.get(i)));
-                    RH.add(blindRSA.unblind(bn[j].rightHash.get(i)));
-                    RO.add(blindRSA.unblind(bn[j].rightOut.get(i)));
+                    lH[i] = blindRSA.unblind(lh[i]);
+                    rH[i] = blindRSA.unblind(rh[i]);
+                    lO[i] = blindRSA.unblind(lo[i]);
+                    rO[i] = blindRSA.unblind(ro[i]);
+                    lM[i] = blindRSA.unblind(lm[i]);
+                    rM[i] = blindRSA.unblind(rm[i]);
                 }
 
-                note.setAmount(blindRSA.unblind(bn[j].amount));
-                note.setId(blindRSA.unblind(bn[j].id));
-                note.setLeftHash(LH);
-                note.setLeftOut(LO);
-                note.setRightHash(RH);
-                note.setRightOut(RO);
-
-                unblindedNotes.add(note);
+                unblindedNotes.add(new Note(amnt, id, lH, rH, lO, rO, lM, rM));
             }
 
             for (int j = bankChoice + 1; j < bn.length; j++) {
-                Note note = new Note();
-                ArrayList<byte[]> LH = new ArrayList<>();
-                ArrayList<byte[]> LO = new ArrayList<>();
-                ArrayList<byte[]> RH = new ArrayList<>();
-                ArrayList<byte[]> RO = new ArrayList<>();
+                byte[] amnt = blindRSA.unblind(bn[j].getAmount());
+                byte[] id = blindRSA.unblind(bn[j].getId());
+                byte[][] lH = new byte[100][];
+                byte[][] rH = new byte[100][];
+                byte[][] lO = new byte[100][];
+                byte[][] rO = new byte[100][];
+                byte[][] lM = new byte[100][];
+                byte[][] rM = new byte[100][];
+
+                BigInteger[] lh = bn[j].getLeftHash();
+                BigInteger[] rh = bn[j].getRightHash();
+                BigInteger[] lo = bn[j].getLeftOut();
+                BigInteger[] ro = bn[j].getRightOut();
+                BigInteger[] lm = bn[j].getLeftMystery();
+                BigInteger[] rm = bn[j].getRightMystery();
+
 
                 for (int i = 0; i < 100; i++) {
-                    LH.add(blindRSA.unblind(bn[j].leftHash.get(i)));
-                    LO.add(blindRSA.unblind(bn[j].leftOut.get(i)));
-                    RH.add(blindRSA.unblind(bn[j].rightHash.get(i)));
-                    RO.add(blindRSA.unblind(bn[j].rightOut.get(i)));
+                    lH[i] = blindRSA.unblind(lh[i]);
+                    rH[i] = blindRSA.unblind(rh[i]);
+                    lO[i] = blindRSA.unblind(lo[i]);
+                    rO[i] = blindRSA.unblind(ro[i]);
+                    lM[i] = blindRSA.unblind(lm[i]);
+                    rM[i] = blindRSA.unblind(rm[i]);
                 }
 
-                note.setAmount(blindRSA.unblind(bn[j].amount));
-                note.setId(blindRSA.unblind(bn[j].id));
-                note.setLeftHash(LH);
-                note.setLeftOut(LO);
-                note.setRightHash(RH);
-                note.setRightOut(RO);
-
-                unblindedNotes.add(note);
+                unblindedNotes.add(new Note(amnt, id, lH, rH, lO, rO, lM, rM));
             }
             /*
-			 * SysOut("Unblinded notes : \n"); for (Note n : unblindedNotes ) {
+             * SysOut("Unblinded notes : \n"); for (Note n : unblindedNotes ) {
 			 * SysOut("Amount : " + new String(n.getAmount(),
 			 * StandardCharsets.UTF_8)); }
 			 */
@@ -145,7 +158,7 @@ public class BankAlice {
                 SysOut("\nI trust Alice so I'm gonna sign her note!");
                 ArrayList<BigInteger> Y = new ArrayList<BigInteger>();
                 for (int i = 0; i < bn.length; i++) {
-                    Y.add(bn[i].amount.add(bn[i].id));
+                    Y.add(bn[i].getAmount().add(bn[i].getId()));
                 }
                 BlindRSA blindRSA2 = new BlindRSA(rsa.getPrivateKey());
                 ArrayList<SignedNote> sigNotes = new ArrayList<SignedNote>();
