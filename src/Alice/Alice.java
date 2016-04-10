@@ -98,14 +98,15 @@ public class Alice {
 				byte[][] getro = notes[i].getRightOut();
 				byte[][] getlm = notes[i].getLeftMystery();
 				byte[][] getrm = notes[i].getRightMystery();
+
 				for (int j = 0; j < 100; j++) {
 
-					lh[j] = blindRSA.blind(getlh[i]);
-					rh[i] = blindRSA.blind(getrh[i]);
-					lo[i] = blindRSA.blind(getlo[i]);
-					ro[i] = blindRSA.blind(getro[i]);
-					lm[i] = blindRSA.blind(getlm[i]);
-					rm[i] = blindRSA.blind(getrm[i]);
+					lh[j] = blindRSA.blind(getlh[j]);
+					rh[j] = blindRSA.blind(getrh[j]);
+					lo[j] = blindRSA.blind(getlo[j]);
+					ro[j] = blindRSA.blind(getro[j]);
+					lm[j] = blindRSA.blind(getlm[j]);
+					rm[j] = blindRSA.blind(getrm[j]);
 
 				}
 				bn[i] = new BlindNote(a, id, lo, ro, lh, rh, lm, rm);
@@ -151,9 +152,12 @@ public class Alice {
 				SysOut("Exception : " + e.getMessage());
 			}
 			// 5. Alice odbiera od Banku podpisany banknot
+			try{
 			ArrayList<SignedNote> sigNotes = (ArrayList<SignedNote>) ois.readObject();
 			for (SignedNote sn : sigNotes) {
 				SysOut("Signature : " + sn.getSignature());
+			}}catch(IOException e){
+				SysOut("ERROR Connecting With Bank");
 			}
 		}catch(Exception e){
 			e.printStackTrace();
