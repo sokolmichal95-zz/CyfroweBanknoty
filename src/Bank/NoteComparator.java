@@ -113,8 +113,8 @@ public final class NoteComparator {
                     byte[] Uprime = ArrayUtils.addAll(unblindedNotes.get(j).getLeftOut()[i],
                             ArrayUtils.addAll(l.get(i), originalNotes.get(j).getLeftMystery()[i]));
                     byte[] U = getHash(Uprime);
-                    SysOut("U : " + ArrayBytesToString(U) + "\nH : " + ArrayBytesToString(unblindedNotes.get(j).getLeftHash()[i]));
-                    if (Arrays.equals(U,unblindedNotes.get(j).getLeftHash()[i])) {
+                    SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(unblindedNotes.get(j).getLeftHash()[i]));
+                    if (ArrayUtils.isEquals(U,unblindedNotes.get(j).getLeftHash()[i])) {
                         s = s + 1;
                     } else {
                         SysOut("Bit Commitment fault. Aborting protocol!");
@@ -133,8 +133,8 @@ public final class NoteComparator {
                     byte[] Uprime = ArrayUtils.addAll(unblindedNotes.get(j).getRightOut()[i],
                             ArrayUtils.addAll(r.get(i), originalNotes.get(j).getRightMystery()[i]));
                     byte[] U = getHash(Uprime);
-                    SysOut("U : " + ArrayBytesToString(U) + "\nH : " + new String(unblindedNotes.get(j).getRightHash()[i]));
-                    if (Arrays.equals(unblindedNotes.get(j).getRightHash()[i], U)) {
+                    SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(unblindedNotes.get(j).getRightHash()[i]));
+                    if (ArrayUtils.isEquals(unblindedNotes.get(j).getRightHash()[i], U)) {
                         s = s + 1;
                     } else {
                         SysOut("Bit Commitment fault. Aborting protocol!");

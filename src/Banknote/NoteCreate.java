@@ -6,7 +6,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 
 import static Utils.Utils.*;
-import static Utils.Utils.Mode.*;
 
 public class NoteCreate {
 
@@ -19,12 +18,12 @@ public class NoteCreate {
     public static void mysterySeparate() throws Exception {
         byte[][] mystery = new byte[LENGTH][100];
         for (int i = 0; i < 100; i++) {
-            byte[] I = generateRandomBytes(LENGTH, BYTE);
+            byte[] I = RandomBytes(LENGTH);
             mystery[i] = I;
             //System.out.println("I" + i + ": " + new String(I));
         }
         for (int i = 0; i < 100; i++) {
-            rightMystery[i] = generateRandomBytes(LENGTH, BYTE);
+            rightMystery[i] = RandomBytes(LENGTH);
             //System.out.println("R" + i + ": " + new String(rightMystery[i]));
         }
         for (int i = 0; i < 100; i++) {
@@ -45,7 +44,7 @@ public class NoteCreate {
         byte[][] tempOut = new byte[LENGTH][100];
         for (int i = 0; i < 100; i++) {
             byte[] out;
-            out = generateRandomBytes(LENGTH, BYTE);
+            out = RandomBytes(LENGTH);
             byte[] hash = ArrayUtils.addAll(out, ArrayUtils.addAll(safe, input[i]));
             temp[i] = getHash(hash);
             tempOut[i] = out;

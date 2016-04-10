@@ -1,5 +1,7 @@
 package Utils;
 
+import org.apache.commons.lang3.RandomUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -240,5 +242,9 @@ public class Utils {
 			string.append(Integer.toBinaryString(b));
 		}
 		return string.toString();
+	}
+
+	public static byte[] RandomBytes(int length){
+		return RandomUtils.nextBytes(length);
 	}
 }

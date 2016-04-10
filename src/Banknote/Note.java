@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import static Banknote.NoteCreate.mysterySeparate;
-import static Utils.Utils.Mode;
-import static Utils.Utils.generateRandomBytes;
+import static Utils.Utils.RandomBytes;
 
 public class Note implements Serializable {
 
@@ -45,7 +44,7 @@ public class Note implements Serializable {
      */
     public Note(byte[] amount, byte[] lSafe, byte[] rSafe) throws Exception {
         this.amount = amount;
-        this.id = generateRandomBytes(256, Mode.BYTE);
+        this.id = RandomBytes(256);
 
         mysterySeparate();
         leftMystery = NoteCreate.leftMystery;

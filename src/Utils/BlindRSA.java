@@ -1,7 +1,5 @@
 package Utils;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
@@ -67,10 +65,10 @@ public class BlindRSA implements Serializable {
     public byte[] unblind(BigInteger blindMessage) {
         BigInteger M = blindMessage.multiply(R.modPow(E.negate(), N)).mod(N);
         byte[] unblinded = M.toByteArray();
-        if (unblinded.length < 256) {
+        /*if (unblinded.length < 256) {
             byte[] zeros = new byte[256 - unblinded.length];
             unblinded = ArrayUtils.addAll(zeros, unblinded);
-        }
+        }*/
         return unblinded;
     }
 

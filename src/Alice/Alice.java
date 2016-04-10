@@ -4,6 +4,7 @@ import Banknote.BlindNote;
 import Banknote.Note;
 import Banknote.SignedNote;
 import Utils.BlindRSA;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import static Utils.Utils.*;
-import static Utils.Utils.Mode.BYTE;
 
 public class Alice {
 
@@ -49,8 +49,8 @@ public class Alice {
 		// losuj 100*b i 100*c, odwołuj się do kolejnych i=0,1,2,...,99 tworząc
 		// Note
 		for (int i = 0; i < 100; i++) {
-			rSafe.add(generateRandomBytes(256, BYTE));
-			lSafe.add(generateRandomBytes(256, BYTE));
+			rSafe.add(RandomBytes(256));
+			lSafe.add(RandomBytes(256));
 		}
 
 		// TEST
@@ -65,7 +65,7 @@ public class Alice {
 		}
 
 		for (Note n : notes) {
-			SysOut(new String(n.getAmount()) + "             " + new String(n.getId()));
+			SysOut(new String(n.getAmount()) + "             " + ArrayUtils.toString(n.getId()));
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
