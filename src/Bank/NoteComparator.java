@@ -92,14 +92,14 @@ public final class NoteComparator {
      * Check Bit Commitments from the <code>Notes</code>
      *
      * @param unblindedNotes - Unblinded Notes <code>ArrayList</code>
-     * @param l              - Left Safe Strings <code>ArrayList</code>
-     * @param r              - right Safe Strings <code>ArrayList</code>
+     * @param leftSafe              - Left Safe Strings <code>ArrayList</code>
+     * @param rightSafe              - right Safe Strings <code>ArrayList</code>
      * @return
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
      */
-    private static boolean checkBitCommitments(ArrayList<Note> unblindedNotes, ArrayList<Note> originalNotes, ArrayList<byte[]> l,
-                                               ArrayList<byte[]> r)
+    private static boolean checkBitCommitments(ArrayList<Note> unblindedNotes, ArrayList<Note> originalNotes, ArrayList<byte[]> leftSafe,
+                                               ArrayList<byte[]> rightSafe)
             throws UnsupportedEncodingException,
             NoSuchAlgorithmException {
         //Sprawdzenie lewego zobowiązania
@@ -111,10 +111,10 @@ public final class NoteComparator {
                 for (int i = 0; i < 100; i++) {
                     //FIXME
                     byte[] Uprime = ArrayUtils.addAll(unblindedNotes.get(j).getLeftOut()[i],
-                            ArrayUtils.addAll(l.get(i), originalNotes.get(j).getLeftMystery()[i]));
+                            ArrayUtils.addAll(leftSafe.get(i), unblindedNotes.get(j).getLeftMystery()[i]));
                     byte[] U = getHash(Uprime);
-                    SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(unblindedNotes.get(j).getLeftHash()[i]));
-                    if (ArrayUtils.isEquals(U,unblindedNotes.get(j).getLeftHash()[i])) {
+                    SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(originalNotes.get(j).getLeftHash()[i]));
+                    if (Arrays.equals(originalNotes.get(j).getLeftHash()[i],U)) {
                         s = s + 1;
                     } else {
                         SysOut("Bit Commitment fault. Aborting protocol!");
@@ -131,10 +131,10 @@ public final class NoteComparator {
                 for (int i = 0; i < 100; i++) {
                     //FIXME
                     byte[] Uprime = ArrayUtils.addAll(unblindedNotes.get(j).getRightOut()[i],
-                            ArrayUtils.addAll(r.get(i), originalNotes.get(j).getRightMystery()[i]));
+                            ArrayUtils.addAll(rightSafe.get(i), unblindedNotes.get(j).getRightMystery()[i]));
                     byte[] U = getHash(Uprime);
-                    SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(unblindedNotes.get(j).getRightHash()[i]));
-                    if (ArrayUtils.isEquals(unblindedNotes.get(j).getRightHash()[i], U)) {
+                    SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(originalNotes.get(j).getRightHash()[i]));
+                    if (Arrays.equals(originalNotes.get(j).getRightHash()[i], U)) {
                         s = s + 1;
                     } else {
                         SysOut("Bit Commitment fault. Aborting protocol!");
