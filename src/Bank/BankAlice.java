@@ -153,7 +153,7 @@ public class BankAlice {
 
             // 4.1 Bank sprawdza zgodność banknotów
             SysOut("\n\n");
-            SysOut(lSafe.size() + "                   " + rSafe.size());
+            //SysOut(lSafe.size() + "                   " + rSafe.size());
             if (NoteComparator.noteCompare(unblindedNotes, noteList, lSafe, rSafe)) {
                 SysOut("\nI trust Alice so I'm gonna sign her note!");
                 ArrayList<BigInteger> Y = new ArrayList<BigInteger>();

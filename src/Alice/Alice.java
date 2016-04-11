@@ -24,7 +24,7 @@ public class Alice {
 
 		
 		//Socket shopSocket = new Socket(IP, 8888);
-		Socket bankSocket = new Socket(IP, 4444);
+		Socket bankSocket = new Socket(LOCAL_IP, 4444);
 		
 		ObjectOutputStream oos;
 		ObjectInputStream ois;

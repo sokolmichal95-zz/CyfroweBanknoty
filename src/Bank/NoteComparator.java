@@ -36,6 +36,7 @@ public final class NoteComparator {
         boolean a = checkAmounts(n);
         boolean b = checkIDs(n);
         boolean c = checkBitCommitments(n, noteArrayList, l, r);
+        SysOut("\n\n");
         SysOut("Amounts check : " + a);
         SysOut("IDs check : " + b);
         SysOut("Bit Commitments check : " + c);
@@ -92,8 +93,8 @@ public final class NoteComparator {
      * Check Bit Commitments from the <code>Notes</code>
      *
      * @param unblindedNotes - Unblinded Notes <code>ArrayList</code>
-     * @param leftSafe              - Left Safe Strings <code>ArrayList</code>
-     * @param rightSafe              - right Safe Strings <code>ArrayList</code>
+     * @param leftSafe       - Left Safe Strings <code>ArrayList</code>
+     * @param rightSafe      - right Safe Strings <code>ArrayList</code>
      * @return
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
@@ -113,8 +114,9 @@ public final class NoteComparator {
                     byte[] Uprime = ArrayUtils.addAll(unblindedNotes.get(j).getLeftOut()[i],
                             ArrayUtils.addAll(leftSafe.get(i), unblindedNotes.get(j).getLeftMystery()[i]));
                     byte[] U = getHash(Uprime);
-                    SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(originalNotes.get(j).getLeftHash()[i]));
-                    if (Arrays.equals(originalNotes.get(j).getLeftHash()[i],U)) {
+                    SysOut("Checking left BitCommitment " + i + 1 + " from Note " + j + 1);
+                    //SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(originalNotes.get(j).getLeftHash()[i]));
+                    if (Arrays.equals(originalNotes.get(j).getLeftHash()[i], U)) {
                         s = s + 1;
                     } else {
                         SysOut("Bit Commitment fault. Aborting protocol!");
@@ -133,7 +135,8 @@ public final class NoteComparator {
                     byte[] Uprime = ArrayUtils.addAll(unblindedNotes.get(j).getRightOut()[i],
                             ArrayUtils.addAll(rightSafe.get(i), unblindedNotes.get(j).getRightMystery()[i]));
                     byte[] U = getHash(Uprime);
-                    SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(originalNotes.get(j).getRightHash()[i]));
+                    SysOut("Checking right BitCommitment " + i + 1 + " from Note " + j + 1);
+                    //SysOut("U : " + ArrayUtils.toString(U) + "\nH : " + ArrayUtils.toString(originalNotes.get(j).getRightHash()[i]));
                     if (Arrays.equals(originalNotes.get(j).getRightHash()[i], U)) {
                         s = s + 1;
                     } else {

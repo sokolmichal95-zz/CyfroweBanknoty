@@ -7,12 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 public class Utils {
 
-    public final static String IP = "localhost";
+    public final static String IP = "150.254.79.227";
+    public final static String LOCAL_IP = "localhost";
 
     private static File log = new File("log.txt");
     private static PrintWriter out = PrintWriterMaker();
@@ -204,12 +206,12 @@ public class Utils {
      * @throws UnsupportedEncodingException
      */
     public static byte[] getHash(byte[] input) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        /*MessageDigest md = MessageDigest.getInstance("SHA-256");
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(input);
         byte[] digest = md.digest();
-        return digest;*/
-        byte[] ret = {0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1};
-        return ret;
+        return digest;
+        //byte[] ret = {0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1};
+        //return ret;
     }
 
     private static PrintWriter PrintWriterMaker() {
